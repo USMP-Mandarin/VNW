@@ -42,19 +42,19 @@ public class VNW extends Plugin{
 
     @Override
     public void registerClientCommands(CommandHandler handler){
-        handler.<Player>register("newwave", "Vote to new wave", (c, player) -> {
+        handler.<Player>register("newwave", "Голосование за скип волны", (c, player) -> {
             if(isVotingStarted) {
-                player.sendMessage("[scarlet]Voting is started!");
+                player.sendMessage("[scarlet]Голосование уже идёт!");
                 return;
             }
             votes++;
             voteTime = 600;
-            Call.sendMessage(player + " [gray]has voted to start new wave.Write y/n to agree." + votes + "/" + limit);
+            Call.sendMessage(player + " [accent]проголосовал [green]за[] скип волны. Напишите y/n чтобы согласиться/отказаться.[cyan]" + votes + "/" + limit);
             isVoted.put(player.uuid(), true);
             Timer.schedule(() -> {
                 voteTime -= updateInterval;
                 if(voteTime < 1){
-                    Call.sendMessage("[scarlet]Voting is over.The required nuber of votes has not been collected.");
+                    Call.sendMessage("[scarlet]Голосование провалилось.");
                     voteTime = 5;
                     updateInterval = 0;
                     votes = 0;
@@ -66,7 +66,7 @@ public class VNW extends Plugin{
                     votes++;
                     Call.sendMessage(player1 + " [gray]has voted to start new wave." + votes + "/" + limit);
                     if(votes == limit) {
-                        Call.sendMessage("[green]Voting is over.The required number of votes has been collected.Starting a new wave ...");
+                        Call.sendMessage("[green]Голосование закончилось успешно! Пропускаем волну...");
                         Vars.logic.runWave();
                         votes = 0;
                         voteTime = 5;
@@ -77,7 +77,7 @@ public class VNW extends Plugin{
                 else if(text.equals("n")) {
                     isVoted.put(player1.uuid(), true);
                     votes--;
-                    Call.sendMessage(player1 + " [gray]has voted aginist of start new wave." + votes + "/" + limit);
+                    Call.sendMessage(player1 + " [accent]проголосовал [scarlet]против[]скипа волны.[cyan]" + votes + "/" + limit);
                     return null;
                 }
                 return text;
