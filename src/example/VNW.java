@@ -37,6 +37,11 @@ public class VNW extends Plugin{
 
     @Override
     public void registerServerCommands(CommandHandler handler){
+    }
+
+
+    @Override
+    public void registerClientCommands(CommandHandler handler){
         handler.<Player>register("newwave", "Vote to new wave", (c, player) -> {
             if(isVotingStarted) {
                 player.sendMessage("[scarlet]Voting is started!");
@@ -54,7 +59,7 @@ public class VNW extends Plugin{
                     updateInterval = 0;
                     votes = 0;
                 }
-                }, 0, updateInterval);
+            }, 0, updateInterval);
             Vars.netServer.admins.addChatFilter((player1, text) -> {
                 if(text.equals("y")) {
                     isVoted.put(player1.uuid(), true);
@@ -78,11 +83,5 @@ public class VNW extends Plugin{
                 return text;
             });
         });
-    }
-
-
-    @Override
-    public void registerClientCommands(CommandHandler handler){
-
     }
 }
