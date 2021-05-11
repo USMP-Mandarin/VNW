@@ -12,8 +12,9 @@ import mindustry.net.Administration.*;
 import mindustry.world.blocks.storage.*;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
-public class VNW extends Plugin{
+public class ExamplePlugin extends Plugin{
 
     HashMap<String, Boolean> isVoted = new HashMap<>();
     int votes = 0;
@@ -47,9 +48,19 @@ public class VNW extends Plugin{
                 player.sendMessage("[scarlet]Голосование уже идёт!");
                 return;
             }
+            if(Groups.player.size() > 4) {
+                limit = 3;
+            }
+            else if(Groups.player.size() < 4) {
+                limit = 2;
+            }
+            else if(Groups.player.size() == 1) {
+                limit = 1;
+            }
             votes++;
             voteTime = 600;
-            Call.sendMessage(player.name() + " [accent]проголосовал(а) [green]за[] скип волны. Напишите y/n чтобы согласиться/отказаться. [cyan]" + votes + "/" + limit);
+            updateInterval = 5;
+            Call.sendMessage(player.name() + " [accent]проголосовал(а) [green]за[] скип волны. Напишите y/n чтобы согласиться/отказаться.[cyan]" + votes + "/" + limit);
             isVoted.put(player.uuid(), true);
             Timer.schedule(() -> {
                 voteTime -= updateInterval;
@@ -58,6 +69,11 @@ public class VNW extends Plugin{
                     voteTime = 5;
                     updateInterval = 0;
                     votes = 0;
+                    Iterator it = Groups.player.iterator();
+                    while (it.hasNext()) {
+                        Player player2 = (Player)it.next();
+                        isVoted.put(player2.uuid(), false);
+                    }
                 }
             }, 0, updateInterval);
             Vars.netServer.admins.addChatFilter((player1, text) -> {
@@ -68,13 +84,18 @@ public class VNW extends Plugin{
                     }
                     isVoted.put(player1.uuid(), true);
                     votes++;
-                    Call.sendMessage(player1.name() + " [accent]проголосовал(а) [green]за[]скип волны. [cyan]" + votes + "/" + limit);
+                    Call.sendMessage(player1.name() + " [accent]проголосовал(а) [green]за[]скип волны.[cyan]" + votes + "/" + limit);
                     if(votes == limit) {
                         Call.sendMessage("[green]Голосование закончилось успешно! Пропускаем волну...");
                         Vars.logic.runWave();
                         votes = 0;
                         voteTime = 5;
                         updateInterval = 0;
+                        Iterator it = Groups.player.iterator();
+                        while (it.hasNext()) {
+                            Player player2 = (Player)it.next();
+                            isVoted.put(player2.uuid(), false);
+                        }
                     }
                     return null;
                 }
@@ -85,7 +106,7 @@ public class VNW extends Plugin{
                     }
                     isVoted.put(player1.uuid(), true);
                     votes--;
-                    Call.sendMessage(player1.name() + " [accent]проголосовал(а) [scarlet]против[] скипа волны. [cyan]" + votes + "/" + limit);
+                    Call.sendMessage(player1.name() + " [accent]проголосовал(а) [scarlet]против[]скипа волны.[cyan]" + votes + "/" + limit);
                     return null;
                 }
                 return text;
