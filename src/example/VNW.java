@@ -64,7 +64,7 @@ public class VNW extends Plugin{
                 if(text.equals("y")) {
                     isVoted.put(player1.uuid(), true);
                     votes++;
-                    Call.sendMessage(player1 + " [gray]has voted to start new wave." + votes + "/" + limit);
+                    Call.sendMessage(player1 + " [accent]проголосовал [scarlet]за[]скип волны.[cyan]" + votes + "/" + limit);
                     if(votes == limit) {
                         Call.sendMessage("[green]Голосование закончилось успешно! Пропускаем волну...");
                         Vars.logic.runWave();
