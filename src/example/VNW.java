@@ -80,6 +80,7 @@ public class VNW extends Plugin {
                 player.sendMessage("[scarlet]Голосование уже идёт!");
                 return;
             }
+            isVotingStarted=true;
             if (Groups.player.size() > 4) {
                 limit = 3;
             } else if (Groups.player.size() < 4) {
