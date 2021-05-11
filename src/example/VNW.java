@@ -76,11 +76,11 @@ public class VNW extends Plugin {
     @Override
     public void registerClientCommands(CommandHandler handler) {
         handler.<Player>register("newwave", "Голосование за скип волны", (c, player) -> {
-            if (isVotingStarted) {
+            if (isVotingStarted) or (isVoted.get(player1.uuid())) {
                 player.sendMessage("[scarlet]Голосование уже идёт!");
                 return;
             }
-            isVotingStarted=true;
+            isVotingStarted = true;
             if (Groups.player.size() > 4) {
                 limit = 3;
             } else if (Groups.player.size() < 4) {
