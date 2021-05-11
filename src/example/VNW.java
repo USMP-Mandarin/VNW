@@ -14,7 +14,7 @@ import mindustry.world.blocks.storage.*;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class ExamplePlugin extends Plugin{
+public class VNW extends Plugin{
 
     HashMap<String, Boolean> isVoted = new HashMap<>();
     int votes = 0;
