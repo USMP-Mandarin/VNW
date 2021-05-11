@@ -49,7 +49,7 @@ public class VNW extends Plugin{
             }
             votes++;
             voteTime = 600;
-            Call.sendMessage(player + " [accent]проголосовал [green]за[] скип волны. Напишите y/n чтобы согласиться/отказаться.[cyan]" + votes + "/" + limit);
+            Call.sendMessage(player + " [accent]проголосовал(а) [green]за[] скип волны. Напишите y/n чтобы согласиться/отказаться.[cyan]" + votes + "/" + limit);
             isVoted.put(player.uuid(), true);
             Timer.schedule(() -> {
                 voteTime -= updateInterval;
@@ -64,7 +64,7 @@ public class VNW extends Plugin{
                 if(text.equals("y")) {
                     isVoted.put(player1.uuid(), true);
                     votes++;
-                    Call.sendMessage(player1 + " [accent]проголосовал [scarlet]за[]скип волны.[cyan]" + votes + "/" + limit);
+                    Call.sendMessage(player1 + " [accent]проголосовал(а) [scarlet]за[]скип волны.[cyan]" + votes + "/" + limit);
                     if(votes == limit) {
                         Call.sendMessage("[green]Голосование закончилось успешно! Пропускаем волну...");
                         Vars.logic.runWave();
@@ -77,7 +77,7 @@ public class VNW extends Plugin{
                 else if(text.equals("n")) {
                     isVoted.put(player1.uuid(), true);
                     votes--;
-                    Call.sendMessage(player1 + " [accent]проголосовал [scarlet]против[]скипа волны.[cyan]" + votes + "/" + limit);
+                    Call.sendMessage(player1 + " [accent]проголосовал(а) [scarlet]против[]скипа волны.[cyan]" + votes + "/" + limit);
                     return null;
                 }
                 return text;
