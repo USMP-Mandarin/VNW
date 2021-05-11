@@ -49,7 +49,7 @@ public class VNW extends Plugin{
             }
             votes++;
             voteTime = 600;
-            Call.sendMessage(player + " [accent]проголосовал(а) [green]за[] скип волны. Напишите y/n чтобы согласиться/отказаться.[cyan]" + votes + "/" + limit);
+            Call.sendMessage(player.name() + " [accent]проголосовал(а) [green]за[] скип волны. Напишите y/n чтобы согласиться/отказаться.[cyan]" + votes + "/" + limit);
             isVoted.put(player.uuid(), true);
             Timer.schedule(() -> {
                 voteTime -= updateInterval;
@@ -62,9 +62,13 @@ public class VNW extends Plugin{
             }, 0, updateInterval);
             Vars.netServer.admins.addChatFilter((player1, text) -> {
                 if(text.equals("y")) {
+                    if(isVoted.get(player1.uuid())) {
+                        player1.sendMessage("[scarlet]Ты уже проголосовал!");
+                        return null;
+                    }
                     isVoted.put(player1.uuid(), true);
                     votes++;
-                    Call.sendMessage(player1 + " [accent]проголосовал(а) [green]за[]скип волны.[cyan]" + votes + "/" + limit);
+                    Call.sendMessage(player1.name() + " [accent]проголосовал(а) [green]за[]скип волны.[cyan]" + votes + "/" + limit);
                     if(votes == limit) {
                         Call.sendMessage("[green]Голосование закончилось успешно! Пропускаем волну...");
                         Vars.logic.runWave();
@@ -75,9 +79,13 @@ public class VNW extends Plugin{
                     return null;
                 }
                 else if(text.equals("n")) {
+                    if(isVoted.get(player1.uuid())) {
+                        player1.sendMessage("[scarlet]Ты уже проголосовал!");
+                        return null;
+                    }
                     isVoted.put(player1.uuid(), true);
                     votes--;
-                    Call.sendMessage(player1 + " [accent]проголосовал(а) [scarlet]против[]скипа волны.[cyan]" + votes + "/" + limit);
+                    Call.sendMessage(player1.name() + " [accent]проголосовал(а) [scarlet]против[]скипа волны.[cyan]" + votes + "/" + limit);
                     return null;
                 }
                 return text;
